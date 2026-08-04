@@ -1,0 +1,47 @@
+/*
+ * School of Tomorrow's AI brand tokens.
+ * Reference: https://linalopes.github.io/SchoolAI-brand-kit/
+ */
+
+:root {
+  /* Palette */
+  --color-deep-purple: #22113e;
+  --color-gray-green: #cad8d8;
+  --color-pink: #ea7dff;
+  --color-turquoise: #08f2db;
+  --color-white: #ffffff;
+
+  /* Semantic aliases. Pink never carries small text on white. */
+  --color-bg: var(--color-white);
+  --color-text: var(--color-deep-purple);
+  --color-surface: var(--color-gray-green);
+  --color-accent: var(--color-turquoise);
+  --color-primary: var(--color-pink);
+
+  /* Derived tints. Deep Purple at low alpha keeps borders in the brand family. */
+  --color-line: rgba(34, 17, 62, 0.18);
+  --color-line-strong: rgba(34, 17, 62, 0.42);
+  --color-text-muted: rgba(34, 17, 62, 0.62);
+  --color-surface-soft: rgba(202, 216, 216, 0.34);
+
+  /* Warning treatment for alarm and error states. Not part of the core
+     palette, but machine faults must not read as decoration. */
+  --color-warning: #8a1f3d;
+  --color-warning-surface: #ffe2ea;
+
+  --radius: 4px;
+
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 36px;
+  --space-6: 52px;
+
+  --font-title: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "Courier Prime", ui-monospace, "SF Mono", monospace;
+
+  --border: 1px solid var(--color-line);
+  --border-strong: 1px solid var(--color-line-strong);
+}

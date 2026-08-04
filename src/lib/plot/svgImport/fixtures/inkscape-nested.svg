@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100mm" height="80mm" viewBox="0 0 100 80">
+  <g transform="translate(10,10)">
+    <g transform="scale(2) rotate(90,20,20)">
+      <rect x="10" y="10" width="20" height="20" fill="none" stroke="#000"/>
+      <line x1="0" y1="0" x2="30" y2="0" stroke="#000"/>
+    </g>
+  </g>
+</svg>

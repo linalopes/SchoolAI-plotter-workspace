@@ -1,0 +1,48 @@
+{
+  "name": "machines-to-draw",
+  "private": true,
+  "version": "0.0.0",
+  "author": {
+    "name": "Lina Lopes",
+    "url": "https://linalopes.info/"
+  },
+  "type": "module",
+  "scripts": {
+    "postinstall": "node scripts/sync-sketch-vendor.mjs",
+    "dev": "vite",
+    "build": "node scripts/sync-sketch-vendor.mjs && vite build",
+    "preview": "vite preview",
+    "generate:example-previews": "node scripts/generate-example-previews.mjs",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.2.0",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/acorn": "^4.0.6",
+    "@types/node": "^24.13.3",
+    "@types/p5": "^1.7.7",
+    "@types/w3c-web-serial": "^1.0.8",
+    "jsdom": "^28.1.0",
+    "svelte": "^5.56.8",
+    "svelte-check": "^4.7.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.10.4",
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/lint": "^6.9.7",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.7",
+    "@lezer/highlight": "^1.2.3",
+    "acorn": "^8.18.0",
+    "codemirror": "^6.0.2",
+    "fflate": "^0.8.3",
+    "p5": "^2.3.2",
+    "p5.plotsvg": "^0.3.0"
+  }
+}

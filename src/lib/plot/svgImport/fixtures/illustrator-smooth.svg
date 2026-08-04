@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400px" height="400px" viewBox="0 0 400 400">
+  <path fill="none" stroke="#000"
+    d="M40 200 C40 100 120 40 200 40 S360 100 360 200 S280 360 200 360 S40 300 40 200 Z"/>
+  <path fill="none" stroke="#000"
+    d="M80 80 Q200 20 320 80 T320 200 T80 200"/>
+</svg>

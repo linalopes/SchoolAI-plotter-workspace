@@ -1,0 +1,149 @@
+<script lang="ts">
+  import { untrack } from 'svelte';
+  import { basicSetup } from 'codemirror';
+  import { EditorView, keymap } from '@codemirror/view';
+  import { Compartment, EditorState } from '@codemirror/state';
+  import { javascript } from '@codemirror/lang-javascript';
+  import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+  import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
+  import { tags } from '@lezer/highlight';
+
+  interface Props {
+    value: string;
+    /** Changes when the active sketch changes — forces a full document replace. */
+    syncKey: string;
+    onChange: (value: string) => void;
+    disabled?: boolean;
+  }
+
+  let { value, syncKey, onChange, disabled = false }: Props = $props();
+
+  let host = $state<HTMLDivElement | null>(null);
+  let view: EditorView | null = null;
+  let editableCompartment = new Compartment();
+  /** Suppresses onChange while applying a programmatic document replace. */
+  let applyingExternal = false;
+  let lastSyncKey = '';
+  /** Always call the latest prop — EditorView listeners outlive render cycles. */
+  let onChangeRef: Props['onChange'] = (value) => onChange(value);
+  $effect(() => {
+    onChangeRef = (value) => onChange(value);
+  });
+
+  const brandHighlight = HighlightStyle.define([
+    { tag: tags.keyword, color: '#22113e', fontWeight: '700' },
+    { tag: tags.comment, color: '#6b7280', fontStyle: 'italic' },
+    { tag: tags.string, color: '#0b7a6e' },
+    { tag: tags.number, color: '#22113e' },
+    { tag: tags.function(tags.variableName), color: '#5b2a86' },
+  ]);
+
+  function replaceDocument(next: string) {
+    if (!view) return;
+    const current = view.state.doc.toString();
+    if (current === next) return;
+    applyingExternal = true;
+    view.dispatch({
+      changes: { from: 0, to: view.state.doc.length, insert: next },
+    });
+    applyingExternal = false;
+  }
+
+  function mountEditor(parent: HTMLDivElement, initial: string) {
+    view?.destroy();
+    const state = EditorState.create({
+      doc: initial,
+      extensions: [
+        basicSetup,
+        javascript(),
+        history(),
+        syntaxHighlighting(brandHighlight),
+        keymap.of([...defaultKeymap, ...historyKeymap]),
+        editableCompartment.of(EditorView.editable.of(!disabled)),
+        EditorView.updateListener.of((update) => {
+          if (!update.docChanged || applyingExternal) return;
+          onChangeRef(update.state.doc.toString());
+        }),
+        EditorView.theme({
+          '&': {
+            height: '100%',
+            fontSize: '13px',
+            backgroundColor: '#ffffff',
+            color: '#22113e',
+            border: '1px solid rgba(34, 17, 62, 0.42)',
+            borderRadius: '4px',
+          },
+          '.cm-scroller': {
+            fontFamily: '"Courier Prime", ui-monospace, monospace',
+            lineHeight: '1.55',
+          },
+          '.cm-gutters': {
+            backgroundColor: 'rgba(202, 216, 216, 0.34)',
+            color: 'rgba(34, 17, 62, 0.62)',
+            borderRight: '1px solid rgba(34, 17, 62, 0.18)',
+          },
+          '&.cm-focused': {
+            outline: '2px solid #22113e',
+            outlineOffset: '2px',
+          },
+          '.cm-activeLine': {
+            backgroundColor: 'rgba(8, 242, 219, 0.12)',
+          },
+        }),
+      ],
+    });
+    view = new EditorView({ state, parent });
+  }
+
+  $effect(() => {
+    const parent = host;
+    if (!parent) return;
+    const initial = untrack(() => value);
+    const key = untrack(() => syncKey);
+    mountEditor(parent, initial);
+    lastSyncKey = key;
+    return () => {
+      view?.destroy();
+      view = null;
+    };
+  });
+
+  $effect(() => {
+    view?.dispatch({
+      effects: editableCompartment.reconfigure(EditorView.editable.of(!disabled)),
+    });
+  });
+
+  // Sketch identity changed → always replace the full document.
+  $effect(() => {
+    if (!view) return;
+    if (syncKey === lastSyncKey) return;
+    lastSyncKey = syncKey;
+    replaceDocument(value);
+    if (import.meta.env.DEV) {
+      console.info('[generate:editor] loaded', { syncKey, length: value.length });
+    }
+  });
+
+  // Same sketch, external value update (reset / restore) → replace when different.
+  $effect(() => {
+    if (!view) return;
+    if (syncKey !== lastSyncKey) return;
+    if (view.state.doc.toString() === value) return;
+    replaceDocument(value);
+  });
+</script>
+
+<div class="editor" bind:this={host} role="textbox" aria-label="Sketch code editor"></div>
+
+<style>
+  .editor {
+    height: 100%;
+    min-height: 220px;
+    overflow: hidden;
+  }
+
+  .editor :global(.cm-editor) {
+    height: 100%;
+  }
+</style>
