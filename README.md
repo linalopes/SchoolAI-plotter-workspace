@@ -6,6 +6,13 @@ preparation, and physical pen plotters.
 **Conceived and developed by [Lina Lopes](https://linalopes.info/)** as part of
 [School of Tomorrow's AI](https://schoolai.linalopes.info/).
 
+**Try it online:**
+[https://school-ai-plotter-workspace.vercel.app/](https://school-ai-plotter-workspace.vercel.app/)
+
+Serial hardware access still requires a supported desktop browser (Chrome) and a
+secure context. The hosted build is useful for exploring Generate, Prepare, and
+Demo mode without a local install.
+
 **Plotter Workspace is a working title.** The product name and authorship
 metadata live in `src/lib/config.ts` so they can be changed in one place.
 
