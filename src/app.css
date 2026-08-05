@@ -29,6 +29,29 @@ body {
   height: 100%;
 }
 
+/*
+  Locked shell chrome. These global rules intentionally outrank component
+  styles so Generate / Prepare / Machines / Guide content cannot compress
+  the top navigation or the page-title band (a flex-column bug that made
+  Connection look tighter than Overview).
+*/
+.app-header {
+  height: var(--app-header-height) !important;
+  min-height: var(--app-header-height) !important;
+  max-height: var(--app-header-height) !important;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.section-chrome {
+  flex: 0 0 var(--app-section-chrome-height) !important;
+  height: var(--app-section-chrome-height) !important;
+  min-height: var(--app-section-chrome-height) !important;
+  max-height: var(--app-section-chrome-height) !important;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
 h1,
 h2,
 h3,
@@ -83,9 +106,11 @@ samp {
   border-radius: 2px;
 }
 
-/* Focus rings need to stay visible against Deep Purple surfaces. */
+/* Focus rings need to stay visible against Deep Purple surfaces.
+   Inset offset keeps rings inside the locked header instead of hugging its edges. */
 .on-dark :focus-visible {
   outline-color: var(--color-turquoise);
+  outline-offset: -2px;
 }
 
 /* ------------------------------------------------------------- headings */

@@ -81,13 +81,32 @@
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 0.04em;
-    padding: var(--space-1) var(--space-3);
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+    padding: 0 var(--space-3);
     border-radius: var(--radius);
+    /* Keep a constant border width so warning state does not resize the chip. */
     border: 1px solid var(--color-gray-green);
     background: transparent;
     color: var(--color-gray-green);
     cursor: pointer;
     white-space: nowrap;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .status:focus-visible {
+    outline: 2px solid var(--color-turquoise);
+    outline-offset: -2px;
+  }
+
+  .status__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   .status:hover {
@@ -126,11 +145,12 @@
     border-color: var(--color-white);
   }
 
-  /* Faults are not just a colour: the border thickens and the dot squares off. */
+  /* Faults are not just a colour: stronger border colour and a squared-off dot. */
   .status--warning {
     background: var(--color-warning-surface);
-    border: 2px solid var(--color-warning);
+    border-color: var(--color-warning);
     color: var(--color-warning);
+    box-shadow: inset 0 0 0 1px var(--color-warning);
   }
 
   .status--warning:hover {

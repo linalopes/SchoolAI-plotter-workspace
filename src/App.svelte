@@ -15,6 +15,9 @@
    * deliberately re-created on entry rather than kept alive: the serial
    * connection lives in a module-level store, so nothing about the machine
    * session depends on a component staying mounted.
+   *
+   * Layout uses CSS grid with a fixed header row so page content can never
+   * compress the top navigation (the previous flex column allowed that).
    */
   $effect(() => {
     document.title = `${APP_CONFIG.productName} — ${APP_CONFIG.organization.name}`;
@@ -49,21 +52,24 @@
 
 <style>
   .app {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: var(--app-header-height) minmax(0, 1fr) auto;
     height: 100%;
     min-width: 0;
+    overflow: hidden;
   }
 
   .app__body {
-    flex: 1 1 auto;
     min-height: 0;
     display: flex;
+    overflow: hidden;
   }
 
   .app__panel {
     flex: 1 1 auto;
     min-width: 0;
+    min-height: 0;
     display: flex;
+    overflow: hidden;
   }
 </style>

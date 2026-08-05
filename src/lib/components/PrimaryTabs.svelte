@@ -55,12 +55,21 @@
 </nav>
 
 <style>
+  .tabs {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
   .tabs__list {
     display: flex;
+    align-items: center;
     gap: 2px;
+    height: 40px;
   }
 
   .tab {
+    position: relative;
     font-family: var(--font-title);
     font-weight: 500;
     font-size: 14px;
@@ -68,19 +77,39 @@
     color: var(--color-gray-green);
     background: transparent;
     border: 0;
-    border-bottom: 2px solid transparent;
-    padding: var(--space-2) var(--space-3);
+    /* Indicator is drawn inset — not as a border that hugs the header edge. */
+    border-bottom: 0;
+    padding: 0 var(--space-3);
+    height: 40px;
+    line-height: 40px;
     cursor: pointer;
-    border-radius: 2px 2px 0 0;
+    border-radius: var(--radius);
+    box-sizing: border-box;
   }
 
   .tab:hover {
     color: var(--color-white);
   }
 
+  .tab:focus-visible {
+    /* Keep the focus ring inside the tab so it never looks like the header grew. */
+    outline: 2px solid var(--color-turquoise);
+    outline-offset: -2px;
+  }
+
   /* Pink is used as a structural accent on Deep Purple, an approved pair. */
   .tab--active {
     color: var(--color-white);
-    border-bottom-color: var(--color-pink);
+  }
+
+  .tab--active::after {
+    content: '';
+    position: absolute;
+    left: var(--space-2);
+    right: var(--space-2);
+    bottom: 4px;
+    height: 2px;
+    background: var(--color-pink);
+    border-radius: 1px;
   }
 </style>

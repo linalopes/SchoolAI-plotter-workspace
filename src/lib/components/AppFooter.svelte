@@ -34,13 +34,14 @@
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-2) var(--space-3);
+    flex: none;
     min-height: 48px;
+    height: auto;
     padding: var(--space-3) var(--space-4);
     border-top: var(--border);
     background: var(--color-white);
     font-size: 12px;
     box-sizing: border-box;
-    flex: none;
   }
 
   .footer__credit {

@@ -44,4 +44,8 @@
 
   --border: 1px solid var(--color-line);
   --border-strong: 1px solid var(--color-line-strong);
+
+  /* Shell chrome — locked so flex content cannot compress headers. */
+  --app-header-height: 80px;
+  --app-section-chrome-height: 104px;
 }
